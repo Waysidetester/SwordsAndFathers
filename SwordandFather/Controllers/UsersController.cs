@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SwordandFather.Data;
 using SwordandFather.Models;
+using SwordandFather.Validators;
 
 namespace SwordandFather.Controllers
 {
@@ -12,14 +9,22 @@ namespace SwordandFather.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        static List<User> _users = new List<User>();
+        readonly UserRepository _userRepository;
+        readonly CreateUserRequestValidator _validator;
+
+        public UsersController()
+        {
+            _validator = new CreateUserRequestValidator();
+            _userRepository = new UserRepository();
+        }
 
         [HttpPost("register")]
-        public ActionResult<int> AddUser(User newUser)
+        public ActionResult<int> AddUser(CreateUserRequest createdUser)
         {
-            newUser.Id = _users.Count + 1;
+            if (!_validator.Validate(createdUser))
+                return BadRequest(new { error = "username and password must be valid" });
 
-            _users.Add(newUser);
+            var newUser = _userRepository.AddUser(createdUser.Username, createdUser.Password);
 
             return Created($"api/users/{newUser.Id}", newUser);
         }
