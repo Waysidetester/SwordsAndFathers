@@ -2,7 +2,7 @@
 
 namespace SwordandFather.Validators
 {
-    public class CreateAssassinRequestValidator
+    public class CreateAssassinRequestValidator : IValidator<CreateAssassinRequest>
     {
         public bool Validate(CreateAssassinRequest assassin)
         {

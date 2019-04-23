@@ -1,4 +1,4 @@
-﻿namespace SwordandFather.Controllers
+﻿namespace SwordandFather.Validators
 {
     public interface IValidator<TToValidate>
     {

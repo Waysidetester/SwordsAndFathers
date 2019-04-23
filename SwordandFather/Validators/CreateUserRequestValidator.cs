@@ -3,7 +3,7 @@ using System;
 
 namespace SwordandFather.Validators
 {
-    public class CreateUserRequestValidator
+    public class CreateUserRequestValidator : IValidator<CreateUserRequest>
     {
         public bool Validate(CreateUserRequest requestToValidate)
         {
